@@ -1,31 +1,53 @@
 package mx.edu.j2se.trinidad.tasks.tests;
 
+import mx.edu.j2se.trinidad.tasks.Task;
 import org.junit.Assert;
 import org.junit.Test;
-import mx.edu.j2se.trinidad.tasks.Task;
+
 public class TestTasks {
     @Test
     public void TestsNonRepetitiveTask(){
-        Task task = new Task("Go to jail", 7);
-        task.setActive(true);
-        Assert.assertEquals(task.nextTimeAfter(4), 7);
+        Task noRepTask = new Task("Go to jail", 7);
+        // Check status
+        Assert.assertFalse(noRepTask.isActive());
+        noRepTask.setActive(true);
+        //Check status again
+        Assert.assertTrue(noRepTask.isActive());
+        //Check nextTimeAfter method
+        Assert.assertEquals(noRepTask.nextTimeAfter(4), 7);
+        // Check getting the title
+        Assert.assertEquals(noRepTask.getTitle(),"Go to jail");
+
+        // Testing change to repetitive task
+        noRepTask.setTime(6, 13,2);
+        Assert.assertTrue(noRepTask.isRepeated());
+        //Another check
+        Assert.assertEquals(noRepTask.nextTimeAfter(12),-1);
     }
 
     @Test
     public void TestsRepetitiveTask(){
-        Task nonRepTask = new Task("Go to sleep", 7,24, 5);
-        Assert.assertEquals(nonRepTask.getStartTime(), -1);
-        Assert.assertEquals(nonRepTask.getEndTime(), -1);
-        nonRepTask.setActive(true);
-        Assert.assertEquals(nonRepTask.getStartTime(), 7);
-        Assert.assertEquals(nonRepTask.getEndTime(), 24);
-        Assert.assertEquals(nonRepTask.nextTimeAfter(6), 7);
-        Assert.assertEquals(nonRepTask.nextTimeAfter(7), 12);
-        Assert.assertEquals(nonRepTask.nextTimeAfter(11), 12);
-        Assert.assertEquals(nonRepTask.nextTimeAfter(14), 17);
-        Assert.assertTrue(nonRepTask.isRepeated());
-        nonRepTask.setTime(5);
-        Assert.assertFalse(nonRepTask.isRepeated());
+        Task RepTask = new Task("Go to sleep", 7,24, 5);
+        //check start and end time
+        Assert.assertEquals(RepTask.getStartTime(), 7);
+        Assert.assertEquals(RepTask.getEndTime(), 24);
+        RepTask.setActive(true);
+
+        //Testing the nextTimeAfter method
+        Assert.assertEquals(RepTask.nextTimeAfter(6), 7);
+        Assert.assertEquals(RepTask.nextTimeAfter(21), 22);
+        Assert.assertEquals(RepTask.nextTimeAfter(7), 12);
+        Assert.assertEquals(RepTask.nextTimeAfter(11), 12);
+        Assert.assertEquals(RepTask.nextTimeAfter(14), 17);
+        Assert.assertEquals(RepTask.nextTimeAfter(25), -1);
+        Assert.assertEquals(RepTask.nextTimeAfter(24), -1);
+        Assert.assertTrue(RepTask.isRepeated());
+        //change to no repetitive task
+        RepTask.setTime(5);
+        //
+        Assert.assertFalse(RepTask.isRepeated());
+        Assert.assertEquals(RepTask.getTime(),5);
+        Assert.assertFalse(RepTask.isRepeated());
     }
 
 }
