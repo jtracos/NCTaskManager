@@ -160,7 +160,6 @@ public class Task {
         return isActive() ? next(0, current):0;
     }
 
-
     public boolean isRepeated(){
         return this.repetitive;
     }
@@ -182,7 +181,6 @@ public class Task {
         }
         return res;
     }
-
 
     private void clearVars(){
         if(isRepeated()) {
