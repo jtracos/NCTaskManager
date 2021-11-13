@@ -168,15 +168,13 @@ public class Task {
         int res = -1;
         if (threshold < getStartTime()) res = getStartTime();
         else if (isRepeated()
-                && threshold <= getEndTime()) {
+                && threshold < getEndTime()) {
             int val = getStartTime() + idx * getRepeatInterval();
 
             if(val<=threshold){
                 res = next(idx+1, threshold);
-            }else{
-                if(val<=getEndTime()){
+            }else if(val<=getEndTime()){
                     res = val;
-                }
             }
         }
         return res;
