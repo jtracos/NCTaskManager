@@ -17,15 +17,13 @@ public class Task {
     private boolean repetitive;
 
     /**
-     * This class allows set a non repetitiva task
-     * @param title:string
-     *             Task title
-     * @param time: int
-     *            Event time
+     * This class allows create a non repetitive task
+     * @param title - Task title
+     * @param time -Event time
      *
-     * Example:
-     *            Task batmanTask = Task("Go to fight with people ",5);
-     *            batmanTask.getTime()// 5
+     * _________________________________________________________________________
+     *  Task batmanTask = Task("Go to fight with people ",5);
+     *  batmanTask.getTime()// 5
      */
     public Task(String title, int time){
         setTitle(title);
@@ -34,19 +32,15 @@ public class Task {
     }
     /**
      * This class allows set a repetitive task
-     * @param title:string
-     *             Task title
-     * @param start: int
-     *            Start time of the task
-     * @param end: int
-     *            End time of the task
-     * @param interval: int
-     *            interval of task repetition
-     *
-     * Example:
-     *      Task batmanTask = Task("Go to fight with people ",7, 23, 6);
-     *      batmanTask.getStartTime()// 7
-     *      batmanTask.nextTimeAfter(13)// 19
+     * @param title - Task title
+     * @param start - Start time of the task
+     * @param end - End time of the task
+     * @param interval - interval of task repetition
+     * _________________________________________________________________
+     *   Task batmanTask = Task("Go to fight with people ",7, 23, 6);
+     *   batmanTask.getStartTime()// 7
+     * 
+     *    batmanTask.nextTimeAfter(13)// 19
      */
     public Task(String title, int start, int end, int interval){
         setTitle(title);
@@ -58,8 +52,8 @@ public class Task {
      * @return task title
      *
      * Example:
-     *      Task batmanTask = Task("Go to fight with people ",7, 23, 6);
-     *      batmanTask.getTitle()// "Go to fight with people "
+     *     Task batmanTask = Task("Go to fight with people ",7, 23, 6);
+     *     batmanTask.getTitle()// "Go to fight with people "
      */
     public String getTitle(){
         return this.title;
@@ -67,7 +61,7 @@ public class Task {
 
     /**
      * The setTitle method reset the title of the current task
-     * @param title:String
+     * @param title - New task title
      */
     public void setTitle(String title){
         this.title = title;
@@ -75,23 +69,23 @@ public class Task {
 
     /**
      * The isActive method returns the task status
-     * @return Task status
+     * @return - true if the current task is active
      */
     public boolean isActive(){
         return this.active;
     }
     /**
      * The setActive method set the task status
-     * @param active :boolean
+     * @param active - true to activate the task
      */
     public void setActive(boolean active){
         this.active = active;
     }
 
     /**
-     * the getTime method returns the event time of a non-repetitive task
+     * the getTime method returns either the event time of a non-repetitive task
      * or the start time of a repetitive one
-     * @return int
+     * @return - Start time of the task
      */
     public int getTime() {
         return getStartTime();
@@ -100,7 +94,7 @@ public class Task {
     /**
      * the setTime method reset the time of the current task.
      * If the task is a repetitive one it becomes a single-time task
-     * @param time: int
+     * @param time: execution time of the task
      */
     public void setTime(int time) {
         clearVars();
@@ -111,12 +105,9 @@ public class Task {
      * the setTime method resets the time of the current task.
      * If the task is a single-time event, it becomes a repetitive one
      *
-     * @param start:int
-     *             Start time
-     * @param end:int
-     *           End time
-     * @param interval: int
-     *                Interval time
+     * @param start - Start time of the task
+     * @param end - End time of the task
+     * @param interval - Interval of time between consequtives events
      */
     public void setTime(int start, int end, int interval){
         if(!isRepeated())
@@ -130,7 +121,7 @@ public class Task {
     public int getStartTime(){
         return this.start;
     }
-
+    /**@return - End time of the task */
     public int getEndTime(){
         int time = getStartTime();
         if(isRepeated())
@@ -141,7 +132,7 @@ public class Task {
     /**
      * The getRepeatInterval method returns the timelapse between
      * two consecutive task events
-     * @return int
+     * @return Interval of repetition of the task, if not repetitive returns 0 
      */
     public int getRepeatInterval(){
         int inter= 0;
@@ -150,11 +141,17 @@ public class Task {
     }
 
     /**
-     * The nextTimeAfter method returns the next event time of the task
+     * The nextTimeAfter method finds the next event time of the task
      * after a given time
-     * @param current:int
-     *               Time before the next time
-     * @return next task time after current
+     * @param current - Time before the next time
+     * @return next event time of the task after current, -1 if it is
+     * out of range
+     * ______________________________________________________________
+     *   Task batmanTask = Task("Go to fight with people ",7, 23, 6);
+     *   batmanTask.getStartTime()// 7
+     * 
+     *   batmanTask.nextTimeAfter(13)// 19
+     *   batmanTask.nextTimeAfter(22)// -1
      */
     public int nextTimeAfter(int current){
         return isActive() ? next(0, current):0;
@@ -163,16 +160,24 @@ public class Task {
     public boolean isRepeated(){
         return this.repetitive;
     }
-
-    private int next(int idx, int threshold){
+    
+    /**
+     * private method which finds the time of the next event of the tasks
+     * relative to a given time
+     * @param idx - parameter used for the search
+     * @param current - time before the next time
+     * @return the next event time after current time, -1 if
+     *      it is out of range 
+     */
+    private int next(int idx, int current){
         int res = -1;
-        if (threshold < getStartTime()) res = getStartTime();
+        if (current < getStartTime()) res = getStartTime();
         else if (isRepeated()
-                && threshold < getEndTime()) {
+                && current < getEndTime()) {
             int val = getStartTime() + idx * getRepeatInterval();
 
-            if(val<=threshold){
-                res = next(idx+1, threshold);
+            if(val<=current){
+                res = next(idx+1, current);
             }else if(val<=getEndTime()){
                     res = val;
             }
