@@ -22,7 +22,7 @@ public class Task {
      * @param time -Event time
      *
      * _________________________________________________________________________
-     *  Task batmanTask = Task("Go to fight with people ",5);
+     *  Task batmanTask = Task("Go to fight with bad people ",5);
      *  batmanTask.getTime()// 5
      */
     public Task(String title, int time){
@@ -30,18 +30,21 @@ public class Task {
         setTime(time);
 
     }
+
     /**
      * This class allows set a repetitive task
      * @param title - Task title
      * @param start - Start time of the task
      * @param end - End time of the task
      * @param interval - interval of task repetition
-     * _________________________________________________________________
-     *   Task batmanTask = Task("Go to fight with people ",7, 23, 6);
-     *   batmanTask.getStartTime()// 7
      * 
-     *    batmanTask.nextTimeAfter(13)// 19
+     * _________________________________________________________________
+     *   Task batmanTask = Task("Go to fight with bad people ",7, 23, 6);
+     *   batmanTask.getStartTime() // 7
+     *   batmanTask.setActive(true) // set the task as active
+     *   batmanTask.nextTimeAfter(13) // 19
      */
+    
     public Task(String title, int start, int end, int interval){
         setTitle(title);
         setTime(start, end, interval);
@@ -74,6 +77,7 @@ public class Task {
     public boolean isActive(){
         return this.active;
     }
+    
     /**
      * The setActive method set the task status
      * @param active - true to activate the task
@@ -85,7 +89,7 @@ public class Task {
     /**
      * the getTime method returns either the event time of a non-repetitive task
      * or the start time of a repetitive one
-     * @return - Start time of the task
+     * @return start time of the task
      */
     public int getTime() {
         return getStartTime();
@@ -94,7 +98,7 @@ public class Task {
     /**
      * the setTime method reset the time of the current task.
      * If the task is a repetitive one it becomes a single-time task
-     * @param time: execution time of the task
+     * @param time - Execution time of the task
      */
     public void setTime(int time) {
         clearVars();
@@ -132,7 +136,7 @@ public class Task {
     /**
      * The getRepeatInterval method returns the timelapse between
      * two consecutive task events
-     * @return Interval of repetition of the task, if not repetitive returns 0 
+     * @return interval of repetition of the task, if not repetitive returns 0 
      */
     public int getRepeatInterval(){
         int inter= 0;
