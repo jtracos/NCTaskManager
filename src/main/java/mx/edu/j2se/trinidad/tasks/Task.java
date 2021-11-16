@@ -158,7 +158,7 @@ public class Task {
      *   batmanTask.nextTimeAfter(22)// -1
      */
     public int nextTimeAfter(int current){
-        return isActive() ? next(0, current):0;
+        return isActive() ? next(current):0;
     }
 
     public boolean isRepeated(){
@@ -173,7 +173,7 @@ public class Task {
      * @return the next event time after current time, -1 if
      *      it is out of range 
      */
-    private int next(int idx, int current){
+    private int next(int current){
         int res = -1;
         if (current < getStartTime()) res = getStartTime();
         else if (isRepeated()
