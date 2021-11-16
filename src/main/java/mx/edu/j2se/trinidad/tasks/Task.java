@@ -174,13 +174,11 @@ public class Task {
         if (current < getStartTime()) res = getStartTime();
         else if (isRepeated()
                 && current < getEndTime()) {
-            int val = getStartTime() + idx * getRepeatInterval();
-
-            if(val<=current){
-                res = next(idx+1, current);
-            }else if(val<=getEndTime()){
-                    res = val;
-            }
+            int diff = current - getStartTime();//diferencia entre el tiempo actual y el inicio
+            int range = getEndTime() - getStartTime(); //rango de tiempo en que ocurren las tareas
+            int div = val1/getRepeatInterval(); //cociente entero
+            int nextValInRange = getRepeatInterval()*(div + 1);//
+            if(nextVal>diff && nextVal<range) res = getStartTime() + nextValInRange;
         }
         return res;
     }
