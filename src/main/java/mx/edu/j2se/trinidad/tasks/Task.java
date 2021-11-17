@@ -1,5 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
+import java.util.Objects;
+
 public class Task {
 
     String title;
@@ -168,7 +170,6 @@ public class Task {
     /**
      * private method which finds the time of the next event of the tasks
      * relative to a given time
-     * @param idx - parameter used for the search
      * @param current - time before the next time
      * @return the next event time after current time, -1 if
      *      it is out of range 
@@ -192,5 +193,30 @@ public class Task {
             setTime(0,0,0);
             this.repetitive = false;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task task = (Task) o;
+        return start == task.getStartTime() && end == task.getEndTime()
+                && interval == task.getRepeatInterval() && title.equals(task.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, start, end, interval);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", interval=" + interval +
+                ", active=" + active +
+                '}';
     }
 }
