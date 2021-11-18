@@ -1,67 +1,63 @@
 package mx.edu.j2se.trinidad.tasks;
 
 public class ArrayTaskList {
-    private int size;
-    private Node<Task> node;
+    private int currentSize;
+    private int MAX_SIZE;
+    private Task[] array;
+
+    public ArrayTaskList(int length){
+        MAX_SIZE = length;
+        array = new Task[MAX_SIZE];
+    }
 
     public ArrayTaskList(){
-        node = null;
+        this(100);
+        System.out.println(array[0]);
     }
 
     public void add(Task task){
-        Node<Task> tempNode = new Node(task, node );
-        node = tempNode;
-        size++;
+        array[currentSize] = task;
+        currentSize++;
     }
 
     public int size(){
-        return  size;
+        return  currentSize;
     }
 
     public Task getTask(int index){
-        if(index>=size || index < 0){
-            throw new IndexOutOfBoundsException("Size out of bounds " + size);
+        if(index>currentSize || index < 0){
+            throw new IndexOutOfBoundsException("Size out of bounds " + currentSize);
         }
-
-        Node<Task> firstNode = node;
-        for(int counter = 0; counter<index && firstNode!= null; counter++){
-
-            firstNode = firstNode.nextNode;
-        }
-        return firstNode.data;
+        return array[index];
     }
 
     public boolean remove(Task task){
         boolean done = false;
-        Node<Task> firstNode = node;
-        while(firstNode != null && !done){
-            firstNode = firstNode.nextNode;
-            if(task.equals(firstNode.data)){
+        for(int i = 0; i<currentSize && !done; i++){
+            if(task.equals(array[i])){
                 done = true;
-                firstNode.data = node.data;
-                node = node.nextNode;
-                size--;
+                array[i] = array[currentSize-1];
+                array[currentSize-1] = null;
+                currentSize--;
             }
-
         }
         return done;
     }
 
-
-
-
-    private class Node<T>{
-        private Node nextNode;
-        T data;
-
-        private Node(T data){
-            this(data, null);
+    public ArrayTaskList incoming(int from, int to) {
+        ArrayTaskList tmpList = new ArrayTaskList();
+        for (int i = 0; i<size(); i++) {
+            Task tmpTask = array[i];
+            if (tmpTask.isRepeated()) {// if repetitive
+                //if time in [from, to]
+                // add current task at task list
+                if (tmpTask.nextTimeAfter(from - 1) != -1
+                        && tmpTask.nextTimeAfter(to + 1) == -1)
+                    tmpList.add(tmpTask);
+            } else if (tmpTask.getTime() >= from && tmpTask.getTime() <= to) {
+                tmpList.add(tmpTask);
+            }
         }
-
-        private Node(T data, Node node){
-            this.nextNode = node;
-            this.data = data;
-        }
-
+        return tmpList;
     }
 }

@@ -160,7 +160,7 @@ public class Task {
      *   batmanTask.nextTimeAfter(22)// -1
      */
     public int nextTimeAfter(int current){
-        return isActive() ? next(current):0;
+        return isActive() ? next(current):-1;
     }
 
     public boolean isRepeated(){
