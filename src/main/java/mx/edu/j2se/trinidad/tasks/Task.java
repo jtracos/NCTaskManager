@@ -55,10 +55,9 @@ public class Task {
     /**
      * The getTitle method returns the title the current task
      * @return task title
-     *
-     * Example:
-     *     Task batmanTask = Task("Go to fight with people ",7, 23, 6);
-     *     batmanTask.getTitle()// "Go to fight with people "
+     *__________________________________________________________________________
+     * Task batmanTask = Task("Go to fight with people ",7, 23, 6);
+     * batmanTask.getTitle()// "Go to fight with people "
      */
     public String getTitle(){
         return this.title;
@@ -170,7 +169,7 @@ public class Task {
     /**
      * private method which finds the time of the next event of the tasks
      * relative to a given time
-     * @param current - time before the next time
+     * @param current time before the next time
      * @return the next event time after current time, -1 if
      *      it is out of range 
      */
