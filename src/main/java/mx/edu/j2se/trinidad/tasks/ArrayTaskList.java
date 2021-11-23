@@ -106,8 +106,9 @@ public class ArrayTaskList {
      */
     public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList tmpList = new ArrayTaskList();
+        Task tmpTask;
         for (int i = 0; i<size(); i++) {
-            Task tmpTask = array[i];
+            tmpTask = array[i];
             if (tmpTask.isRepeated()) {// if repetitive
                 //if time in [from, to]
                 // add current task at task list
