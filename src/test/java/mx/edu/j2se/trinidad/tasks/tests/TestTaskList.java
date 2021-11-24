@@ -11,8 +11,8 @@ public class TestTaskList {
         System.out.print("\t\tTesting array List\n");
         System.out.print("-------------------------------------------\n");
         Test(new ArrayTaskList());
-        System.out.printf("\t\tTesting linked  List\n");
-        System.out.printf("-------------------------------------------\n");
+        System.out.print("\t\tTesting linked  List\n");
+        System.out.print("-------------------------------------------\n");
         Test(new LinkedTaskList());
     }
 
