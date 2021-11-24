@@ -1,22 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
 /**
- * create an object at most with 100 tasks
- *
- *
- * _____________________________________________
- * ArrayTaskList tasks = new ArrayTaskList(); // It creates an object
- *                                            <br>//with at most 100 tasks
- * //adding tasks in the object
- * tasks.add(new Task("Go out for a burger", 5));<br>
- * .<br>
- * .<br>
- * <i>tasks.add(new Task("Catch spider-man without his disguise", 3, 24, 2));</i>
- *<br>
- * verifing number of taks recorded in the object<br>
- * <i>System.out.println("#tasks: " + tasks.size());</i>
- *
- *
+ Check for the ArrayList documentation
  */
 public class LinkedTaskList {
     private int currentSize;
