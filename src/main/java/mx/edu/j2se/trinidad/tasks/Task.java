@@ -28,6 +28,8 @@ public class Task {
      *  batmanTask.getTime()// 5
      */
     public Task(String title, int time){
+        if(time<0)
+            throw new IllegalArgumentException("The time must be equals o greater than 0");
         setTitle(title);
         setTime(time);
 
@@ -115,6 +117,11 @@ public class Task {
      * @param interval - Interval of time between consequtives events
      */
     public void setTime(int start, int end, int interval){
+        if(start<0 || end<0)
+            throw new IllegalArgumentException("Entries must be positive");
+        if(interval<=0)
+            throw new IllegalArgumentException("invertal must be positive o 0");
+        //TODO: Agregar excepciones para start>end
         if(!isRepeated())
             this.repetitive = true;
         this.start = start;

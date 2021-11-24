@@ -57,6 +57,7 @@ public class ArrayTaskList {
      * 
      */
     public void add(Task task){
+        if(task==null) throw new IllegalArgumentException("null values are not allowed");
         array[currentSize] = task;
         currentSize++;
     }
@@ -114,9 +115,15 @@ public class ArrayTaskList {
                 // add current task at task list
                 if (tmpTask.nextTimeAfter(from - 1) != -1
                         && tmpTask.nextTimeAfter(to + 1) == -1)
-                    tmpList.add(tmpTask);
+                    try {
+                        tmpList.add(tmpTask);
+                    }catch (IllegalArgumentException ae){
+                    }
             } else if (tmpTask.getTime() >= from && tmpTask.getTime() <= to) {
-                tmpList.add(tmpTask);
+                try {
+                    tmpList.add(tmpTask);
+                }catch (IllegalArgumentException a){
+                }
             }
         }
         return tmpList;
