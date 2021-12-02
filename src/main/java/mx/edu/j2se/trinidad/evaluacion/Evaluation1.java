@@ -13,7 +13,7 @@ public class Evaluation1 {
         Circle[] circles ={new Circle(4), new Circle(7), new Circle()};
 
         int biggest = biggestCircle(circles);
-        System.out.println("biggest = " + biggest);//1
+        System.out.println("Radius of biggest circle = " + circles[biggest].getRadius());//1
     }
 
     public static int biggestCircle(Circle[] circles){
