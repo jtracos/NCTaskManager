@@ -18,8 +18,7 @@ package mx.edu.j2se.trinidad.tasks;
      * 
      * 
      */
-public class ArrayTaskList {
-    private int currentSize;
+public class ArrayTaskList extends AbstractTaskList {
     private int MAX_SIZE;
     private Task[] array;
 

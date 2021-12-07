@@ -3,8 +3,7 @@ package mx.edu.j2se.trinidad.tasks;
 /**
  Check for the ArrayList documentation
  */
-public class LinkedTaskList {
-    private int currentSize;
+public class LinkedTaskList extends AbstractTaskList{
     private Node node;
 
     /**
@@ -26,7 +25,9 @@ public class LinkedTaskList {
      *
      */
     public void add(Task task){
-        Node tempNode = new Node(task, node );
+        Node tempNode = new Node();
+        tempNode.nextNode= node;
+        tempNode.data = task;
         node = tempNode;
         currentSize++;
     }
@@ -44,13 +45,12 @@ public class LinkedTaskList {
      * @return an object of Task class
      */
     public Task getTask(int index){
-        Task result = null;
         if(index>=currentSize || index < 0){
             throw new IndexOutOfBoundsException("Size out of bounds " + currentSize);
         }
-
+        Task result = null;
         Node firstNode = node;
-        for(int counter = 1; counter<index && firstNode!= null; counter++){
+        for(int counter = 0; counter<index && firstNode!= null; counter++){
 
             firstNode = firstNode.nextNode;
         }
@@ -65,16 +65,17 @@ public class LinkedTaskList {
      */
     public boolean remove(Task task){
         boolean done = false;
-        Node firstNode = node;
+        Node firstNode;
+        firstNode = node;
         while(firstNode != null && !done){
-            firstNode = firstNode.nextNode;
             if(task.equals(firstNode.data)){
                 done = true;
-                firstNode.data = node.data;
-                node = node.nextNode;
+                Node nd = node;
+                firstNode.data = nd.data;
+                node = nd.nextNode;
                 currentSize--;
             }
-
+            firstNode = firstNode.nextNode;
         }
         return done;
     }
@@ -117,6 +118,9 @@ public class LinkedTaskList {
         private Node(Task data, Node node) {
             this.nextNode = node;
             this.data = data;
+        }
+        private Node() {
+            this(null,null);
         }
     }
 }
