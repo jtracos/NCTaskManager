@@ -1,5 +1,4 @@
 # NCTaskManager
-__Josué Trinidad__
 
 Weekly assignment are tagged
 
