@@ -1,29 +1,13 @@
 package mx.edu.j2se.trinidad.tasks;
 
-/**
- Check for the ArrayList documentation
- */
 public class LinkedTaskList extends AbstractTaskList{
     private Node node;
 
-    /**
-     * create an object at most with 100 tasks
-     *
-     *
-     * _____________________________________________
-     * ArrayTaskList tasks = new ArrayTaskList(); // It creates an object
-     *                                            // at most with 100 tasks
-     *
-     */
+
     public LinkedTaskList(){
         node = null;
     }
 
-    /**
-     * adds a Task object at the tasks list
-     * @param task a Task object
-     *
-     */
     public void add(Task task){
         Node tempNode = new Node();
         tempNode.nextNode= node;
@@ -31,19 +15,11 @@ public class LinkedTaskList extends AbstractTaskList{
         node = tempNode;
         currentSize++;
     }
-    /**
-     * the size method returns the current number of tasks in the ArrayTaksList
-     * object
-     * @return size number of taks in the current object
-     */
+
     public int size(){
         return  currentSize;
     }
-    /**
-     * The getTask method returns the tasks allocated on the given index
-     * @param index task index
-     * @return an object of Task class
-     */
+
     public Task getTask(int index){
         if(index>=currentSize || index < 0){
             throw new IndexOutOfBoundsException("Size out of bounds " + currentSize);
@@ -58,11 +34,7 @@ public class LinkedTaskList extends AbstractTaskList{
             result = firstNode.data;
         return result;
     }
-    /**
-     * removes a task from the current object if it is found
-     * @param task instance of Task
-     * @return true if the task is found and removed
-     */
+
     public boolean remove(Task task){
         boolean done = false;
         Node firstNode;
@@ -80,13 +52,6 @@ public class LinkedTaskList extends AbstractTaskList{
         return done;
     }
 
-    /**
-     * this method returns a list with those tasks which are executed
-     * between <i>to</i> and <i>from</i> time
-     * @param from minimum time the task is executed
-     * @param to maximum time the task is executed
-     * @return an ArrayTaksList object
-     */
     public LinkedTaskList incoming(int from, int to) {
         LinkedTaskList tmpList = new LinkedTaskList();
         Node nextNode = node;

@@ -70,7 +70,8 @@ public class Task {
      * @param title - New task title
      */
     public void setTitle(String title){
-        this.title = title;
+        if(title=="") throw new IllegalArgumentException("Title must be a non-empty string");
+        this.title=title;
     }
 
     /**
@@ -104,6 +105,7 @@ public class Task {
      * @param time - Execution time of the task
      */
     public void setTime(int time) {
+        if(time<=0) throw new IllegalArgumentException("Time must be non-zero");
         clearVars();
         this.start = time;
     }
@@ -117,11 +119,12 @@ public class Task {
      * @param interval - Interval of time between consequtives events
      */
     public void setTime(int start, int end, int interval){
-        if(start<0 || end<0)
-            throw new IllegalArgumentException("Entries must be positive");
+        if(start<0 || end<=0)
+            throw new IllegalArgumentException("Entries must be positive non-zeros");
+        if(start>end)
+            throw new IllegalArgumentException("end time must be greater than start time");
         if(interval<=0)
-            throw new IllegalArgumentException("invertal must be positive o 0");
-        //TODO: Agregar excepciones para start>end
+            throw new IllegalArgumentException("interval must be positive non-zero");
         if(!isRepeated())
             this.repetitive = true;
         this.start = start;
