@@ -1,6 +1,6 @@
 package mx.edu.j2se.trinidad.tasks;
 
-public class TestTaskListFactory {
+public class ListTypes {
 
     public static enum types {
         LINKED(new LinkedTaskList()),
@@ -11,6 +11,7 @@ public class TestTaskListFactory {
         types(AbstractTaskList type) {
             this.type = type;
         }
+
         public AbstractTaskList getTaskList(){
             return type;
         }

@@ -7,7 +7,7 @@ public class TaskListFactory {
      *            of TaskList.
      * @return - An AbstractTaskList object
      */
-    public static AbstractTaskList createTaskList( TestTaskListFactory.types type){
+    public static AbstractTaskList createTaskList( ListTypes.types type){
         System.out.println(type);
         return type.getTaskList();
     }
