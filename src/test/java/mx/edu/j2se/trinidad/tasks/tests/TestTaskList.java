@@ -1,7 +1,8 @@
 package mx.edu.j2se.trinidad.tasks.tests;
 
 
-import mx.edu.j2se.trinidad.tasks.*;
+import mx.edu.j2se.trinidad.tasks.AbstractTaskList;
+import mx.edu.j2se.trinidad.tasks.LinkedTaskList;
 import mx.edu.j2se.trinidad.tasks.Task;
 
 public class TestTaskList {
@@ -16,9 +17,19 @@ public class TestTaskList {
                 new Task("Another dumb task", 21),
                 new Task("Catch spider-man without his disguise", 3, 24, 2),
                 new Task("Another dumber task", 7, 18, 4));
-        show(lista);
-        activeTasks(lista);
 
+        AbstractTaskList lista2;
+        try {
+            lista2 = (AbstractTaskList) lista.clone();
+            for(Task ts: lista2){
+                System.out.println("ts = " + ts);
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        /*show(lista);
+        activeTasks(lista);
         Task task = new Task("Watch spider-man", 9, 15, 4);
         System.out.println("\n\nRemoving " + task + "\n");
         lista.remove(task);

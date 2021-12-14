@@ -1,5 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
+import java.util.Objects;
+
 public class LinkedTaskList extends AbstractTaskList{
     private Node node;
 
@@ -72,6 +74,19 @@ public class LinkedTaskList extends AbstractTaskList{
         return tmpList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LinkedTaskList)) return false;
+        LinkedTaskList tasks = (LinkedTaskList) o;
+        return Objects.equals(node, tasks.node);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(node);
+    }
+
     private class Node {
         private Node nextNode;
         Task data;
@@ -86,6 +101,19 @@ public class LinkedTaskList extends AbstractTaskList{
         }
         private Node() {
             this(null,null);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Node)) return false;
+            Node node = (Node) o;
+            return Objects.equals(nextNode, node.nextNode) && Objects.equals(data, node.data);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(nextNode, data);
         }
     }
 }

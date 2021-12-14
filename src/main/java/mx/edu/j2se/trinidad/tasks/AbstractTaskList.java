@@ -1,5 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
+import java.util.Iterator;
+
 /**
  * create an object at most with 100 tasks
  *
@@ -17,10 +19,12 @@ package mx.edu.j2se.trinidad.tasks;
  *
  *
  */
-public abstract class AbstractTaskList {
+public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     /** size*/
     protected int currentSize;
+
+    private AbstractTaskList self = this;
 
     /**
      * adds a Task object at the tasks list
@@ -64,5 +68,37 @@ public abstract class AbstractTaskList {
         return "AbstractTaskList{" +
                 "currentSize=" + currentSize +
                 '}';
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+                return new Iterator<Task>() {
+                    private int idx = 0;
+
+                    @Override
+                    public boolean hasNext() {
+                        return idx < self.size();
+                    }
+
+                    @Override
+                    public Task next() {
+                        Task res = null;
+                        if (idx < self.size()) {
+                            res = self.getTask(idx);
+                            idx++;
+                        }
+                        return res;
+            }
+        };
+    }
+
+    @Override
+    public abstract boolean equals(Object o);
+
+    @Override
+    public abstract int hashCode();
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

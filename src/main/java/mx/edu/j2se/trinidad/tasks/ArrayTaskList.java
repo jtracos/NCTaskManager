@@ -1,6 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ArrayTaskList extends AbstractTaskList {
     private int MAX_SIZE;
@@ -64,6 +65,7 @@ public class ArrayTaskList extends AbstractTaskList {
                     try {
                         tmpList.add(tmpTask);
                     }catch (IllegalArgumentException ae){
+                        ae.getSuppressed();
                     }
             } else if (tmpTask.getTime() >= from && tmpTask.getTime() <= to) {
                 try {
@@ -74,5 +76,20 @@ public class ArrayTaskList extends AbstractTaskList {
             }
         }
         return tmpList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArrayTaskList)) return false;
+        ArrayTaskList tasks = (ArrayTaskList) o;
+        return currentSize == tasks.currentSize && Arrays.equals(array, tasks.array);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(currentSize);
+        result = 31 * result + Arrays.hashCode(array);
+        return result;
     }
 }

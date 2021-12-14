@@ -11,4 +11,9 @@ public class TaskListFactory {
         System.out.println(type);
         return type.getTaskList();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

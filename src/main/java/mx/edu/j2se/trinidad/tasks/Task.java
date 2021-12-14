@@ -2,7 +2,7 @@ package mx.edu.j2se.trinidad.tasks;
 
 import java.util.Objects;
 
-public class Task {
+public class Task implements Cloneable {
 
     String title;
      /** start variable indicates the start time of a repetitive task
@@ -70,7 +70,7 @@ public class Task {
      * @param title - New task title
      */
     public void setTitle(String title){
-        if(title=="") throw new IllegalArgumentException("Title must be a non-empty string");
+        if(title.equals("")) throw new IllegalArgumentException("Title must be a non-empty string");
         this.title=title;
     }
 
@@ -227,5 +227,10 @@ public class Task {
                 ", interval=" + interval +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
