@@ -1,9 +1,12 @@
 package mx.edu.j2se.trinidad.tasks;
 
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class LinkedTaskList extends AbstractTaskList{
-    private Node node;
+    Node node;
 
 
     public LinkedTaskList(){
@@ -54,7 +57,7 @@ public class LinkedTaskList extends AbstractTaskList{
         return done;
     }
 
-    public LinkedTaskList incoming(int from, int to) {
+    /*public LinkedTaskList incoming(int from, int to) {
         LinkedTaskList tmpList = new LinkedTaskList();
         Node nextNode = node;
         Task tmpTask;
@@ -72,7 +75,7 @@ public class LinkedTaskList extends AbstractTaskList{
             nextNode = nextNode.nextNode;
         }
         return tmpList;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -87,7 +90,46 @@ public class LinkedTaskList extends AbstractTaskList{
         return Objects.hash(node);
     }
 
-    private class Node {
+    @Override
+    public Iterator<Task> iterator() {
+        //try {
+        AbstractTaskList self;
+        self = (AbstractTaskList) this;
+        return new Iterator<Task>() {
+            int size = self.size();
+            Node currentNode = node.clone();
+            private int idx = 0;
+
+            @Override
+            public boolean hasNext() {
+                return idx < size;
+            }
+
+            @Override
+            public Task next() {
+                Task res = null;
+                if(idx==0){
+                   res = currentNode.data;
+                   idx++;
+                }
+                else if (idx < size) {
+                    currentNode = currentNode.nextNode;
+                    res = currentNode.data;
+                    idx++;
+                }
+                return res;
+            }
+        };
+    }
+
+
+    @Override
+    public Stream<Task> getStream(){
+        Iterable<Task> it = this::iterator;
+        return StreamSupport.stream(it.spliterator(), false);
+    }
+
+    private class Node implements Cloneable {
         private Node nextNode;
         Task data;
 
@@ -103,6 +145,15 @@ public class LinkedTaskList extends AbstractTaskList{
             this(null,null);
         }
 
+        public Node clone() {
+            try {
+                return (Node) super.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace(System.err);
+            }
+            return null;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -115,5 +166,7 @@ public class LinkedTaskList extends AbstractTaskList{
         public int hashCode() {
             return Objects.hash(nextNode, data);
         }
+
+
     }
 }

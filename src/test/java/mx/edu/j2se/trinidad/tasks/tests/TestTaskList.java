@@ -2,24 +2,34 @@ package mx.edu.j2se.trinidad.tasks.tests;
 
 
 import mx.edu.j2se.trinidad.tasks.AbstractTaskList;
-import mx.edu.j2se.trinidad.tasks.LinkedTaskList;
+import mx.edu.j2se.trinidad.tasks.ArrayTaskList;
 import mx.edu.j2se.trinidad.tasks.Task;
+
+import java.util.stream.Stream;
 
 public class TestTaskList {
 
     public static void main(String[] args) {
         System.out.print("\t\tTesting array List\n");
-        System.out.print("-------------------------------------------\n");
-        AbstractTaskList lista = new LinkedTaskList();
+        AbstractTaskList lista = new ArrayTaskList();
         load(lista,
                 new Task("Watch spider-man", 9, 15, 4),
                 new Task("Walking with unknown people", 9, 14, 2),
-                new Task("Another dumb task", 21),
+                new Task("Another dumber task", 7,18,4),
                 new Task("Catch spider-man without his disguise", 3, 24, 2),
-                new Task("Another dumber task", 7, 18, 4));
+                new Task("Another dumber task", 7,18,4),
+                new Task("Another dumber task", 13));
 
-        AbstractTaskList lista2;
-        try {
+        activeTasks(lista);
+        //Stream implementation
+        Stream<Task> st = lista.getStream();
+        st.distinct().forEach(System.out::println);
+
+        // INCOMING METHOD
+        System.out.println("Incoming tasks");
+        Stream<Task> inc = lista.incoming(7,13);
+        inc.forEach(System.out::println);
+        /*try {
             lista2 = (AbstractTaskList) lista.clone();
             for(Task ts: lista2){
                 System.out.println("ts = " + ts);

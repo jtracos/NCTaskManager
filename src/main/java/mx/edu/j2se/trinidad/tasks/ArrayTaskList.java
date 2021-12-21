@@ -1,7 +1,10 @@
 package mx.edu.j2se.trinidad.tasks;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class ArrayTaskList extends AbstractTaskList {
     private int MAX_SIZE;
@@ -52,7 +55,7 @@ public class ArrayTaskList extends AbstractTaskList {
         return done;
     }
 
-    public ArrayTaskList incoming(int from, int to) {
+    /*public ArrayTaskList incoming(int from, int to) {
         ArrayTaskList tmpList = new ArrayTaskList();
         Task tmpTask;
         for (int i = 0; i<size(); i++) {
@@ -76,7 +79,7 @@ public class ArrayTaskList extends AbstractTaskList {
             }
         }
         return tmpList;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -91,5 +94,35 @@ public class ArrayTaskList extends AbstractTaskList {
         int result = Objects.hash(currentSize);
         result = 31 * result + Arrays.hashCode(array);
         return result;
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        AbstractTaskList self;
+        self = this.clone();
+        return new Iterator<Task>() {
+            private int idx = 0;
+
+            @Override
+            public boolean hasNext() {
+                return idx < self.size();
+            }
+
+            @Override
+            public Task next() {
+                Task res = null;
+                if (idx < self.size()) {
+                    res = self.getTask(idx);
+                    idx++;
+                }
+                return res;
+            }
+        };
+    }
+
+    @Override
+    public Stream<Task> getStream(){
+        Iterable<Task> it = this.clone();
+        return StreamSupport.stream(it.spliterator(), false);
     }
 }

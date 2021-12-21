@@ -220,14 +220,20 @@ public class Task implements Cloneable {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                ", interval=" + interval +
-                ", active=" + active +
-                '}';
-    }
+        String str;
+        if(isRepeated())
+            str = "Task{" +
+                    "title='" + title + '\'' +
+                    ", start=" + start +
+                    ", end=" + end +
+                    ", interval=" + interval +
+                    ", active=" + active +
+                    '}';
+        else
+            str = "Task{" +" title='" + title + '\'' +
+                    ", start=" + start + "}";
+        return str;
+        }
 
     @Override
     public Object clone() throws CloneNotSupportedException {

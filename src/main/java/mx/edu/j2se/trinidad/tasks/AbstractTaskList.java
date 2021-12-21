@@ -1,6 +1,6 @@
 package mx.edu.j2se.trinidad.tasks;
 
-import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * create an object at most with 100 tasks
@@ -61,7 +61,18 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
      * @param to maximum time the task is executed
      * @return an ArrayTaksList object
      */
-    public abstract AbstractTaskList incoming(int from, int to);
+    public Stream<Task> incoming(int from, int to){
+        Stream<Task> st = this.getStream();
+        return st.filter(task -> {
+            boolean res;
+            if(task.isRepeated()){
+                res = task.nextTimeAfter(from - 1) != -1
+                        && task.nextTimeAfter(to + 1) == -1;
+            }
+            else res = task.getTime() >= from && task.getTime() <= to;
+        return  res;
+        });
+    }
 
     @Override
     public String toString() {
@@ -70,27 +81,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
                 '}';
     }
 
-    @Override
-    public Iterator<Task> iterator() {
-                return new Iterator<Task>() {
-                    private int idx = 0;
 
-                    @Override
-                    public boolean hasNext() {
-                        return idx < self.size();
-                    }
-
-                    @Override
-                    public Task next() {
-                        Task res = null;
-                        if (idx < self.size()) {
-                            res = self.getTask(idx);
-                            idx++;
-                        }
-                        return res;
-            }
-        };
-    }
 
     @Override
     public abstract boolean equals(Object o);
@@ -98,7 +89,14 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     @Override
     public abstract int hashCode();
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public AbstractTaskList clone() {
+        try {
+            return (AbstractTaskList) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+    public abstract Stream<Task> getStream();
 }
