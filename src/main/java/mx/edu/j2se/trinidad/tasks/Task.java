@@ -236,7 +236,12 @@ public class Task implements Cloneable {
         }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() {
+        Task t;
+        if(this.isRepeated())
+            t = new Task(this.title, this.start, this.end,this.interval);
+        else
+            t = new Task(this.title,this.start);
+        return t;
     }
 }

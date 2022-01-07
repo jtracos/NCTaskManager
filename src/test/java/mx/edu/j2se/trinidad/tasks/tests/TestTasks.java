@@ -8,14 +8,11 @@ public class TestTasks {
     public static void main(String[] args){
         Task nts = new Task("Go to play football",5);
         Task cndts;
-        try {
-            cndts = (Task) nts.clone();
-            System.out.println(cndts);
-            System.out.println("nts = " + nts);
-            System.out.println("cndts = nts :" + nts.equals(cndts));
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        cndts = (Task) nts.clone();
+        System.out.println(cndts);
+        System.out.println("nts = " + nts);
+        System.out.println("cndts = nts :" + nts.equals(cndts));
+
 
     }
     @Test
