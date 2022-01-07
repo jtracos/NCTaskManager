@@ -8,8 +8,13 @@ public class TaskListFactory {
      * @return - An AbstractTaskList object
      */
     public static AbstractTaskList createTaskList( ListTypes.types type){
+        AbstractTaskList l;
+        if(type.equals(ListTypes.types.LINKED))
+            l = new LinkedTaskList();
+        else
+            l = new ArrayTaskList();
         System.out.println(type);
-        return type.getTaskList();
+        return l;
     }
 
     @Override

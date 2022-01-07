@@ -1,6 +1,7 @@
 package mx.edu.j2se.trinidad.tasks;
 
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * create an object at most with 100 tasks
@@ -38,7 +39,9 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
      * object
      * @return size number of task in the current object
      */
-    public abstract int size();
+    public int size(){
+        return  currentSize;
+    }
 
     /**
      * The getTask method returns the tasks allocated on the given index
@@ -61,7 +64,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
      * @param to maximum time the task is executed
      * @return an ArrayTaksList object
      */
-    public Stream<Task> incoming(int from, int to){
+    public final Stream<Task> incoming(int from, int to){
         Stream<Task> st = this.getStream();
         return st.filter(task -> {
             boolean res;
@@ -71,7 +74,8 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
             }
             else res = task.getTime() >= from && task.getTime() <= to;
         return  res;
-        });
+        }
+        );
     }
 
     @Override
@@ -98,5 +102,8 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
         return null;
     }
 
-    public abstract Stream<Task> getStream();
+    public Stream<Task> getStream(){
+        Iterable<Task> it = this.clone();
+        return StreamSupport.stream(it.spliterator(), false);
+    };
 }

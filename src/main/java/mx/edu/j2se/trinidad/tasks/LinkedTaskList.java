@@ -21,10 +21,6 @@ public class LinkedTaskList extends AbstractTaskList{
         currentSize++;
     }
 
-    public int size(){
-        return  currentSize;
-    }
-
     public Task getTask(int index){
         if(index>=currentSize || index < 0){
             throw new IndexOutOfBoundsException("Size out of bounds " + currentSize);
@@ -57,25 +53,6 @@ public class LinkedTaskList extends AbstractTaskList{
         return done;
     }
 
-    /*public LinkedTaskList incoming(int from, int to) {
-        LinkedTaskList tmpList = new LinkedTaskList();
-        Node nextNode = node;
-        Task tmpTask;
-        for (int i = 0; i<size() && nextNode != null; i++) {
-            tmpTask = nextNode.data;
-            if (tmpTask.isRepeated()) {// if repetitive
-                //if time in [from, to]
-                // add current task at task list
-                if (tmpTask.nextTimeAfter(from - 1) != -1
-                        && tmpTask.nextTimeAfter(to + 1) == -1)
-                    tmpList.add(tmpTask);
-            } else if (tmpTask.getTime() >= from && tmpTask.getTime() <= to) {
-                tmpList.add(tmpTask);
-            }
-            nextNode = nextNode.nextNode;
-        }
-        return tmpList;
-    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -120,13 +97,6 @@ public class LinkedTaskList extends AbstractTaskList{
                 return res;
             }
         };
-    }
-
-
-    @Override
-    public Stream<Task> getStream(){
-        Iterable<Task> it = this::iterator;
-        return StreamSupport.stream(it.spliterator(), false);
     }
 
     private class Node implements Cloneable {
