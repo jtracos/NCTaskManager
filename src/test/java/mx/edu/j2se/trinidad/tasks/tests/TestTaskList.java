@@ -2,7 +2,7 @@ package mx.edu.j2se.trinidad.tasks.tests;
 
 
 import mx.edu.j2se.trinidad.tasks.AbstractTaskList;
-import mx.edu.j2se.trinidad.tasks.ArrayTaskList;
+import mx.edu.j2se.trinidad.tasks.LinkedTaskList;
 import mx.edu.j2se.trinidad.tasks.Task;
 
 import java.util.stream.Stream;
@@ -11,7 +11,7 @@ public class TestTaskList {
 
     public static void main(String[] args) {
         System.out.print("\t\tTesting array List\n");
-        AbstractTaskList lista = new ArrayTaskList();
+        AbstractTaskList lista = new LinkedTaskList();
         load(lista,
                 new Task("Watch spider-man", 9, 15, 4),
                 new Task("Walking with unknown people", 9, 14, 2),

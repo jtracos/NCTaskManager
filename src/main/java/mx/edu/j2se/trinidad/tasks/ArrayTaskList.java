@@ -67,23 +67,24 @@ public class ArrayTaskList extends AbstractTaskList {
     @Override
     public Iterator<Task> iterator() {
         AbstractTaskList self;
-        self = this.clone();
+        self = this;
         return new Iterator<Task>() {
+            int size = self.size();
             private int idx = 0;
 
             @Override
             public boolean hasNext() {
-                return idx < self.size();
+                return idx < size;
             }
 
             @Override
             public Task next() {
                 Task res = null;
-                if (idx < self.size()) {
+                if (idx < size) {
                     res = self.getTask(idx);
                     idx++;
                 }
-                return res;
+                return res.clone();
             }
         };
     }

@@ -236,7 +236,7 @@ public class Task implements Cloneable {
         }
 
     @Override
-    public Object clone() {
+    public Task clone() {
         Task t;
         if(this.isRepeated())
             t = new Task(this.title, this.start, this.end,this.interval);

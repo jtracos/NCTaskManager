@@ -93,13 +93,16 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     @Override
     public abstract int hashCode();
 
+    @Override
     public AbstractTaskList clone() {
-        try {
-            return (AbstractTaskList) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
+        AbstractTaskList l;
+        if(this instanceof LinkedTaskList)
+            l = new LinkedTaskList();
+        else
+            l = new ArrayTaskList();
+        for(Task tmpT: this) l.add( tmpT.clone());
+
+        return l;
     }
 
     public Stream<Task> getStream(){
