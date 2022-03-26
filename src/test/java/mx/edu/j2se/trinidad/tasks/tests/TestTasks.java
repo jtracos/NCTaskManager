@@ -37,18 +37,18 @@ public class TestTasks {
 
     @Test
     public void TestsRepetitiveTask(){
-        Task RepTask = new Task("Go to sleep", 7,24, 5);
+        Task RepTask = new Task("Go to sleep", 3,24, 2);
         //check start and end time
-        Assert.assertEquals(RepTask.getStartTime(), 7);
+        Assert.assertEquals(RepTask.getStartTime(), 3);
         Assert.assertEquals(RepTask.getEndTime(), 24);
         RepTask.setActive(true);
 
         //Testing the nextTimeAfter method
         Assert.assertEquals(RepTask.nextTimeAfter(6), 7);
-        Assert.assertEquals(RepTask.nextTimeAfter(21), 22);
-        Assert.assertEquals(RepTask.nextTimeAfter(7), 12);
-        Assert.assertEquals(RepTask.nextTimeAfter(11), 12);
-        Assert.assertEquals(RepTask.nextTimeAfter(14), 17);
+        Assert.assertEquals(RepTask.nextTimeAfter(18), 19);
+        Assert.assertEquals(RepTask.nextTimeAfter(17), 19);
+        Assert.assertEquals(RepTask.nextTimeAfter(19), 21);
+        Assert.assertEquals(RepTask.nextTimeAfter(24), -1);
         Assert.assertEquals(RepTask.nextTimeAfter(25), -1);
         Assert.assertEquals(RepTask.nextTimeAfter(24), -1);
         Assert.assertTrue(RepTask.isRepeated());

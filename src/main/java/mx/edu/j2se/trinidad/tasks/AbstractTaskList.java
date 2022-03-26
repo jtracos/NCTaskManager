@@ -62,15 +62,15 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
      * between <i>to</i> and <i>from</i> time
      * @param from minimum time the task is executed
      * @param to maximum time the task is executed
-     * @return an ArrayTaksList object
+     * @return an ArrayTaskList object
      */
     public final Stream<Task> incoming(int from, int to){
         Stream<Task> st = this.getStream();
         return st.filter(task -> {
             boolean res;
             if(task.isRepeated()){
-                res = task.nextTimeAfter(from - 1) != -1
-                        && task.nextTimeAfter(to + 1) == -1;
+                res = task.nextTimeAfter(from - 1) >= from
+                        && task.nextTimeAfter(to - task.getRepeatInterval()) <= to;
             }
             else res = task.getTime() >= from && task.getTime() <= to;
         return  res;
@@ -96,12 +96,12 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     @Override
     public AbstractTaskList clone() {
         AbstractTaskList l;
-        if(this instanceof LinkedTaskList)
-            l = new LinkedTaskList();
-        else
-            l = new ArrayTaskList();
-        for(Task tmpT: this) l.add( tmpT.clone());
-
+        if(this instanceof LinkedTaskList) {
+            l = new LinkedTaskList((LinkedTaskList) this);
+        }
+        else {
+            l = new ArrayTaskList((ArrayTaskList) this);
+        }
         return l;
     }
 

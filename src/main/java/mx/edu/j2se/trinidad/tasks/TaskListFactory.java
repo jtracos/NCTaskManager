@@ -19,6 +19,6 @@ public class TaskListFactory {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        return this.equals(obj);
     }
 }

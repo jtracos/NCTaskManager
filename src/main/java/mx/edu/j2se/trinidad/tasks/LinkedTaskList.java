@@ -13,6 +13,11 @@ public class LinkedTaskList extends AbstractTaskList{
         node = null;
     }
 
+    public LinkedTaskList(LinkedTaskList list){
+        this.node = list.node.clone();
+        this.currentSize = list.size();
+    }
+
     public void add(Task task){
         Node tempNode = new Node();
         tempNode.nextNode= node;
@@ -53,7 +58,6 @@ public class LinkedTaskList extends AbstractTaskList{
         return done;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,10 +75,10 @@ public class LinkedTaskList extends AbstractTaskList{
     public Iterator<Task> iterator() {
         //try {
         AbstractTaskList self;
-        self = (AbstractTaskList) this;
+        self = this;
         return new Iterator<Task>() {
             int size = self.size();
-            Node currentNode = node.clone();
+            Node currentNode = node;
             private int idx = 0;
 
             @Override
@@ -86,7 +90,7 @@ public class LinkedTaskList extends AbstractTaskList{
             public Task next() {
                 Task res = null;
                 if(idx==0){
-                   res = currentNode.data;
+                   res = currentNode.data.clone();
                    idx++;
                 }
                 else if (idx < size) {
@@ -101,7 +105,7 @@ public class LinkedTaskList extends AbstractTaskList{
 
     private class Node implements Cloneable {
         private Node nextNode;
-        Task data;
+        private Task data;
 
         private Node(Task data) {
             this(data, null);
@@ -116,12 +120,30 @@ public class LinkedTaskList extends AbstractTaskList{
         }
 
         public Node clone() {
-            try {
-                return (Node) super.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace(System.err);
+            Node n = new Node();
+            n.setData(this.getData().clone());
+            if(this.nextNode != null) {
+                Node newNode = this.getNextNode().clone();
+                n.setNextNode(newNode);
+            } else{
+                n.setNextNode(null);
             }
-            return null;
+            return n;
+        }
+
+        public void setNextNode(Node nextNode) {
+            this.nextNode = nextNode;
+        }
+
+        public Node getNextNode() {
+            return nextNode;
+        }
+
+        public void setData(Task data) {
+            this.data = data;
+        }
+        public Task getData(){
+            return data;
         }
 
         @Override

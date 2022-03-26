@@ -116,7 +116,7 @@ public class Task implements Cloneable {
      *
      * @param start - Start time of the task
      * @param end - End time of the task
-     * @param interval - Interval of time between consequtives events
+     * @param interval - Interval of time between consecutive events
      */
     public void setTime(int start, int end, int interval){
         if(start<0 || end<=0)
@@ -136,6 +136,7 @@ public class Task implements Cloneable {
     public int getStartTime(){
         return this.start;
     }
+
     /**@return - End time of the task */
     public int getEndTime(){
         int time = getStartTime();
@@ -199,7 +200,9 @@ public class Task implements Cloneable {
 
     private void clearVars(){
         if(isRepeated()) {
-            setTime(0,0,0);
+            start = 0;
+            end = 0;
+            interval = 0;
             this.repetitive = false;
         }
     }
@@ -238,10 +241,15 @@ public class Task implements Cloneable {
     @Override
     public Task clone() {
         Task t;
-        if(this.isRepeated())
-            t = new Task(this.title, this.start, this.end,this.interval);
-        else
+        if(this.isRepeated()) {
+            t = new Task(this.title, this.start, this.end, this.interval);
+            t.active = this.active;
+        }
+        else{
             t = new Task(this.title,this.start);
+            t.active = this.isActive();
+        }
+
         return t;
     }
 }

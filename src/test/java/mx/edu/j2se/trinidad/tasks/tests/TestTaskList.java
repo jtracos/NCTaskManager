@@ -19,15 +19,18 @@ public class TestTaskList {
                 new Task("Catch spider-man without his disguise", 3, 24, 2),
                 new Task("Another dumber task", 7,18,4),
                 new Task("Another dumber task", 13));
-
+        //show(lista);
         activeTasks(lista);
         //Stream implementation
-        Stream<Task> st = lista.getStream();
-        st.distinct().forEach(System.out::println);
+        //Stream<Task> st = lista.getStream();
+        //st.forEach(System.out::println);
+        //st.distinct().forEach(System.out::println);
 
         // INCOMING METHOD
-        System.out.println("Incoming tasks");
-        Stream<Task> inc = lista.incoming(7,13);
+        int from = 7;
+        int to = 19;
+        System.out.println("Incoming tasks between " + from + " and " + to);
+        Stream<Task> inc = lista.incoming(from, to);
         inc.forEach(System.out::println);
         /*try {
             lista2 = (AbstractTaskList) lista.clone();
@@ -66,7 +69,6 @@ public class TestTaskList {
             System.out.print(i + " " + ": \t" + list.getTask(i) + "\n");
         }
     }
-
 
     public static void activeTasks(AbstractTaskList tasks){
         for(int i = 0; i<tasks.size(); i++)

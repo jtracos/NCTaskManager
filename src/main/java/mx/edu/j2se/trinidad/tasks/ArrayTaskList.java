@@ -16,17 +16,24 @@ public class ArrayTaskList extends AbstractTaskList {
 
     public ArrayTaskList(){
         this(100);
-        System.out.println(array[0]);
+    }
+
+    ArrayTaskList(ArrayTaskList list){
+        this(list.MAX_SIZE);
+        for (Task tmpT : list) this.add(tmpT.clone());
     }
 
     public void add(Task task){
         if(task==null) throw new IllegalArgumentException("null values are not allowed");
+        ensureCapacity();
+        array[currentSize] = task;
+        currentSize++;
+    }
+    private void ensureCapacity(){
         if (currentSize==MAX_SIZE){
             MAX_SIZE = 2*MAX_SIZE;
             array = Arrays.copyOf(array,MAX_SIZE);
         }
-        array[currentSize] = task;
-        currentSize++;
     }
 
     public Task getTask(int index){
@@ -38,15 +45,25 @@ public class ArrayTaskList extends AbstractTaskList {
 
     public boolean remove(Task task){
         boolean done = false;
-        for(int i = 0; i<currentSize && !done; i++){
-            if(task.equals(array[i])){
+        int index = getIndexOf(task);
+        currentSize--;
+        array[index] = array[currentSize];
+        array[currentSize] = null;
+        return done;
+    }
+    /*
+    This method returns the index of the task if exists
+    */
+    public int getIndexOf(Task task){
+        boolean done = false;
+        int index = -1;
+        for(int i = 0; i<currentSize && !done; i++) {
+            if (task.equals(array[i])) {
                 done = true;
-                array[i] = array[currentSize-1];
-                array[currentSize-1] = null;
-                currentSize--;
+                index = i;
             }
         }
-        return done;
+        return index;
     }
 
     @Override
