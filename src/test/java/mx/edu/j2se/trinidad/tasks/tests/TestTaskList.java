@@ -20,6 +20,7 @@ public class TestTaskList {
                 new Task("Another dumber task", 7,18,4),
                 new Task("Another dumber task", 13));
         //show(lista);
+        System.out.println(lista);
         activeTasks(lista);
         //Stream implementation
         //Stream<Task> st = lista.getStream();

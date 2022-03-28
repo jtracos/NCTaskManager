@@ -71,38 +71,6 @@ public class LinkedTaskList extends AbstractTaskList{
         return Objects.hash(node);
     }
 
-    @Override
-    public Iterator<Task> iterator() {
-        //try {
-        AbstractTaskList self;
-        self = this;
-        return new Iterator<Task>() {
-            int size = self.size();
-            Node currentNode = node;
-            private int idx = 0;
-
-            @Override
-            public boolean hasNext() {
-                return idx < size;
-            }
-
-            @Override
-            public Task next() {
-                Task res = null;
-                if(idx==0){
-                   res = currentNode.data.clone();
-                   idx++;
-                }
-                else if (idx < size) {
-                    currentNode = currentNode.nextNode;
-                    res = currentNode.data;
-                    idx++;
-                }
-                return res;
-            }
-        };
-    }
-
     private class Node implements Cloneable {
         private Node nextNode;
         private Task data;

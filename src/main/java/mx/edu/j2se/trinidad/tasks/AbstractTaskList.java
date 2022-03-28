@@ -1,5 +1,6 @@
 package mx.edu.j2se.trinidad.tasks;
 
+import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -80,12 +81,19 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     @Override
     public String toString() {
-        return "AbstractTaskList{" +
-                "currentSize=" + currentSize +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("TaskList[");
+        for(int i = 0; i< this.size(); i++){
+            Task t = this.getTask(i);
+            if(i+1<this.size()) {
+                sb.append(t.toString() + ",\n");
+            }else{
+                sb.append(t.toString());
+            }
+        }
+       sb.append("]");
+        return sb.toString();
     }
-
-
 
     @Override
     public abstract boolean equals(Object o);
@@ -109,4 +117,34 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
         Iterable<Task> it = this.clone();
         return StreamSupport.stream(it.spliterator(), false);
     };
+
+    @Override
+    public Iterator<Task> iterator() {
+        AbstractTaskList self;
+        self = this;
+        return new Iterator<Task>() {
+            int size = self.size();
+            private int idx = 0;
+
+            @Override
+            public boolean hasNext() {
+                return idx < size;
+            }
+
+            @Override
+            public void remove(){
+                idx++;
+            }
+            @Override
+            public Task next() {
+                Task res = null;
+                if (idx < size) {
+                    res = self.getTask(idx);
+                    idx++;
+                }
+                return res.clone();
+            }
+        };
+    }
+
 }
