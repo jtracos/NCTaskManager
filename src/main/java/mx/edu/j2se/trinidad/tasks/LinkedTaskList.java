@@ -2,70 +2,82 @@ package mx.edu.j2se.trinidad.tasks;
 
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class LinkedTaskList extends AbstractTaskList{
-    Node head = null;
-    Node tail = null;
+    Node firstNode = null;
+    private  int length;
 
     public LinkedTaskList(){
-        tail = null;
+        length = 0;
     }
 
     public LinkedTaskList(LinkedTaskList list){
-        this.tail = list.tail.clone();
-        this.currentSize = list.size();
+        Node tmpNode = list.firstNode;
+        int i = 0;
+        while (i < list.size() && tmpNode != null) {
+            add(tmpNode.getData().clone());
+            tmpNode = tmpNode.getNextNode();
+        }
     }
 
     public void add(Task task){
-        if(head == null) {
-            Node tempNode = new Node();
-            Node tmpNode = new Node(task, tail);
-            head = tempNode;
-            tail = tempNode;
-            tail.prev = null;
-            tail.next = null;
-            currentSize++;
-        }else{
-            Node tmpNode = new Node(task);
-            tmpNode.prev = tail;
-            tail.next = tmpNode;
-            tail = tmpNode;
-            tmpNode.next = null;
-        }
+        Node newNode = new Node(task);
+        newNode.setNextNode(firstNode);
+        firstNode = newNode;
+        currentSize++;
     }
 
     public Task getTask(int index){
         if(index>=currentSize || index < 0){
             throw new IndexOutOfBoundsException("Size out of bounds " + currentSize);
         }
-        Task result = null;
-        Node firstNode = tail;
-        for(int counter = 0; counter<index && firstNode!= null; counter++){
 
-            firstNode = firstNode.getNextNode();
+        Task result;
+        Node currentNode = firstNode;
+        int i = 0;
+        while(i < index){
+           currentNode = currentNode.getNextNode();
+           i++;
         }
-        if(firstNode!= null)
-            result = firstNode.data;
+        result = currentNode.getData();
         return result;
     }
 
     public boolean remove(Task task){
         boolean done = false;
-        Node firstNode;
-        firstNode = tail;
-        while(firstNode != null && !done){
-            if(task.equals(firstNode.data)){
+        Node currentNode = firstNode;
+        while(currentNode.getNextNode() != null && !done){
+            if(task.equals(currentNode.getData())) {
                 done = true;
-                Node nd = tail;
-                firstNode.data = nd.data;
-                tail = nd.getNextNode();
+                firstNode = currentNode.getNextNode();
+            } else if(task.equals(currentNode.getNextNode().getData())){
+                Node next = currentNode.getNextNode();
+                currentNode.setNextNode(next.getNextNode());
                 currentSize--;
             }
-            firstNode = firstNode.getNextNode();
         }
         return done;
+    }
+
+    @Override
+    public String toString() {
+        Task t;
+        Node tmpNode = firstNode;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("List[");
+
+        while (tmpNode != null){
+            t = tmpNode.getData();
+            sb.append(t.toString());
+            if (tmpNode.getNextNode() != null) {
+                sb.append(",\n");
+            }
+            tmpNode = tmpNode.getNextNode();
+        }
+
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
@@ -73,17 +85,63 @@ public class LinkedTaskList extends AbstractTaskList{
         if (this == o) return true;
         if (!(o instanceof LinkedTaskList)) return false;
         LinkedTaskList tasks = (LinkedTaskList) o;
-        return Objects.equals(tail, tasks.tail);
+        return Objects.equals(firstNode, tasks.firstNode);
+    }
+
+    @Override
+    public AbstractTaskList clone() {
+        AbstractTaskList l;
+        l = new LinkedTaskList(this);
+        return l;
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return new LinkedTaskListIterator(this);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tail);
+        return Objects.hash(firstNode);
     }
 
+    class LinkedTaskListIterator  implements Iterator<Task> {
+
+
+        Node currentNode ;
+        int size;
+
+        LinkedTaskListIterator(LinkedTaskList list){
+            currentNode = list.firstNode;
+            size = list.size();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode.getNextNode() != null;
+        }
+
+        @Override
+        public void remove(){
+            if (hasNext()){
+                //idx++;
+                currentNode = currentNode.getNextNode();
+            }
+        }
+
+        @Override
+        public Task next() {
+            Task res = currentNode.getData();
+            currentNode = currentNode.getNextNode();
+            //idx++;
+            return res;
+        }
+    };
+
     private class Node implements Cloneable {
-        private Node next, prev;
+        private Node next;
         private Task data;
+        private Node previous;
 
         public Node(Task data) {
             this(data, null);
@@ -92,28 +150,37 @@ public class LinkedTaskList extends AbstractTaskList{
         public Node(Task data, Node node) {
             this.next = node;
             this.data = data;
+            //node.setPreviousNode(this);
         }
-        private Node() {
-            this(null,null);
+        private Node( Node node) {
+            if ( node != null){
+                setData(node.getData().clone());
+                Node tmpNode = new Node(node.getNextNode().clone());
+                setNextNode(tmpNode);
+            }
+
         }
 
+        @Override
         public Node clone() {
-            Node n;
-            if(this.next != null) {
-                Node newNode = getNextNode().clone();
-                n = new Node(getData().clone(), newNode);
-            } else{
-                n = new Node(getData().clone(), null);
-            }
-            return n;
+
+            return new Node(this);
         }
 
         public void setNextNode(Node nextNode) {
             this.next = nextNode;
         }
 
+        public void setPreviousNode(Node previousNode) {
+            this.previous = previousNode;
+        }
+
         public Node getNextNode() {
             return next;
+        }
+
+        public Node getPreviousNode() {
+            return previous;
         }
 
         public void setData(Task data) {
@@ -122,6 +189,5 @@ public class LinkedTaskList extends AbstractTaskList{
         public Task getData(){
             return data;
         }
-
     }
 }

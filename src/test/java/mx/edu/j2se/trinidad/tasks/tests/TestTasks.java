@@ -20,7 +20,7 @@ public class TestTasks {
         Task noRepTask = new Task("Go to jail", 7);
         // Check status
         Assert.assertFalse(noRepTask.isActive());
-        noRepTask.setActive(true);
+        noRepTask.setStatus(true);
         //Check status again
         Assert.assertTrue(noRepTask.isActive());
         //Check nextTimeAfter method
@@ -41,7 +41,7 @@ public class TestTasks {
         //check start and end time
         Assert.assertEquals(RepTask.getStartTime(), 3);
         Assert.assertEquals(RepTask.getEndTime(), 24);
-        RepTask.setActive(true);
+        RepTask.setStatus(true);
 
         //Testing the nextTimeAfter method
         Assert.assertEquals(RepTask.nextTimeAfter(6), 7);

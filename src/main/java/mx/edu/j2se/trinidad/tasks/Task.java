@@ -19,7 +19,7 @@ public class Task implements Cloneable {
     private boolean repetitive;
 
     /**
-     * This class allows create a non repetitive task
+     * This class allows creating a non-repetitive task
      * @param title - Task title
      * @param time -Event time
      *
@@ -45,7 +45,7 @@ public class Task implements Cloneable {
      * _________________________________________________________________
      *   Task batmanTask = Task("Go to fight with bad people ",7, 23, 6);
      *   batmanTask.getStartTime() // 7
-     *   batmanTask.setActive(true) // set the task as active
+     *   batmanTask.setStatus();(true) // set the task as active
      *   batmanTask.nextTimeAfter(13) // 19
      */
     
@@ -70,7 +70,7 @@ public class Task implements Cloneable {
      * @param title - New task title
      */
     public void setTitle(String title){
-        if(title.equals("")) throw new IllegalArgumentException("Title must be a non-empty string");
+        if(title.isEmpty()) throw new IllegalArgumentException("Title must be a non-empty string");
         this.title=title;
     }
 
@@ -83,10 +83,10 @@ public class Task implements Cloneable {
     }
     
     /**
-     * The setActive method set the task status
+     * The setStatus(); method set the task status
      * @param active - true to activate the task
      */
-    public void setActive(boolean active){
+    public void setStatus(boolean active){
         this.active = active;
     }
 
@@ -187,8 +187,7 @@ public class Task implements Cloneable {
     private int next(int current){
         int res = -1;
         if (current < getStartTime()) res = getStartTime();
-        else if (isRepeated()
-                && current < getEndTime()) {
+        else if (isRepeated() && current < getEndTime()) {
             int diff = current - getStartTime();//diferencia entre el tiempo actual y el inicio
             int range = getEndTime() - getStartTime(); //rango de tiempo en que ocurren las tareas
             int div = diff/getRepeatInterval(); //cociente entero
@@ -243,11 +242,11 @@ public class Task implements Cloneable {
         Task t;
         if(this.isRepeated()) {
             t = new Task(this.title, this.start, this.end, this.interval);
-            t.active = this.active;
+            t.setStatus(this.isActive());
         }
         else{
-            t = new Task(this.title,this.start);
-            t.active = this.isActive();
+            t = new Task(this.title, this.start);
+            t.setStatus(this.isActive());
         }
 
         return t;

@@ -80,20 +80,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("TaskList[");
-        for(int i = 0; i< this.size(); i++){
-            Task t = this.getTask(i);
-            if(i+1<this.size()) {
-                sb.append(t.toString() + ",\n");
-            }else{
-                sb.append(t.toString());
-            }
-        }
-       sb.append("]");
-        return sb.toString();
-    }
+    public abstract String toString();
 
     @Override
     public abstract boolean equals(Object o);
@@ -102,16 +89,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     public abstract int hashCode();
 
     @Override
-    public AbstractTaskList clone() {
-        AbstractTaskList l;
-        if(this instanceof LinkedTaskList) {
-            l = new LinkedTaskList((LinkedTaskList) this);
-        }
-        else {
-            l = new ArrayTaskList((ArrayTaskList) this);
-        }
-        return l;
-    }
+    public  abstract AbstractTaskList clone();
 
     public Stream<Task> getStream(){
         Iterable<Task> it = this.clone();
@@ -119,32 +97,6 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
     };
 
     @Override
-    public Iterator<Task> iterator() {
-        AbstractTaskList self;
-        self = this;
-        return new Iterator<Task>() {
-            int size = self.size();
-            private int idx = 0;
-
-            @Override
-            public boolean hasNext() {
-                return idx < size;
-            }
-
-            @Override
-            public void remove(){
-                idx++;
-            }
-            @Override
-            public Task next() {
-                Task res = null;
-                if (idx < size) {
-                    res = self.getTask(idx);
-                    idx++;
-                }
-                return res.clone();
-            }
-        };
-    }
+    public abstract  Iterator<Task> iterator();
 
 }

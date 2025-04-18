@@ -3,6 +3,7 @@ package mx.edu.j2se.trinidad.tasks.tests;
 
 import mx.edu.j2se.trinidad.tasks.AbstractTaskList;
 import mx.edu.j2se.trinidad.tasks.LinkedTaskList;
+import mx.edu.j2se.trinidad.tasks.ArrayTaskList;
 import mx.edu.j2se.trinidad.tasks.Task;
 
 import java.util.stream.Stream;
@@ -73,7 +74,7 @@ public class TestTaskList {
 
     public static void activeTasks(AbstractTaskList tasks){
         for(int i = 0; i<tasks.size(); i++)
-            tasks.getTask(i).setActive(true);
+            tasks.getTask(i).setStatus(true);
     }
 
     public static  void display(AbstractTaskList tasks){
